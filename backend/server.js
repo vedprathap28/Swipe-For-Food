@@ -14,7 +14,12 @@ const port = process.env.PORT || 4000;
 
 // middlewares
 app.use(express.json())
-app.use(cors())
+const corsOptions = {
+  origin: '*', // This allows all origins
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // db connection
 connectDB()
