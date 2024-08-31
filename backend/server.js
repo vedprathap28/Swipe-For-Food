@@ -13,15 +13,17 @@ const port = process.env.PORT || 4000;
 
 
 // middlewares
-app.use(cors({
-  origin: '*', // This will allow requests from any origin
+const corsOptions = {
+  origin: '*', // Allows all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  optionsSuccessStatus: 204 // Some legacy browsers (IE11, various SmartTVs) choke on 204
-}));
+  optionsSuccessStatus: 204, // Ensures compatibility with older browsers
+};
+
+app.use(cors(corsOptions));
 
 // Handle preflight requests (OPTIONS)
-app.options('*', cors());
+app.options('*', cors(corsOptions));
 
 // Your routes here
 app.get('/', (req, res) => {
