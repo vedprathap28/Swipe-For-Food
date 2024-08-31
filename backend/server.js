@@ -13,13 +13,24 @@ const port = process.env.PORT || 4000;
 
 
 // middlewares
-app.use(express.json())
-const corsOptions = {
-  origin: '*', // This allows all origins
-  credentials: true,
-};
+app.use(cors({
+  origin: '*', // This will allow requests from any origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true, // Access-Control-Allow-Credentials: true
+  optionsSuccessStatus: 204 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+}));
 
-app.use(cors(corsOptions));
+// Handle preflight requests (OPTIONS)
+app.options('*', cors());
+
+// Your routes here
+app.get('/', (req, res) => {
+  res.send('CORS policy allows all origins!');
+});
+
+// Handle preflight requests (OPTIONS)
+app.options('*', cors(corsOptions));
 
 // db connection
 connectDB()
